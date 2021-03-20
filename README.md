@@ -7,7 +7,7 @@ It can serve different instance data based on client's IP address.
 
 Make sure [Go distribution is installed](https://golang.org/doc/install), and then run `go install`.
 
-    $ go install github.com/ryot4/nocloud-net-server
+    $ go install github.com/ryot4/nocloud-net-server@latest
 
 ## Usage
 
