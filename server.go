@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type statusResponseWriter struct {
@@ -26,42 +27,48 @@ type DataSourceHandler struct {
 func (handler *DataSourceHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	sw := &statusResponseWriter{ResponseWriter: w}
 
-	if r.Method == http.MethodGet {
-		handler.serveInstanceData(sw, r)
-	} else {
-		sw.WriteHeader(http.StatusMethodNotAllowed)
-	}
-	log.Printf("%s \"%s %s %s\" %d \"%s\"",
-		r.RemoteAddr,
-		r.Method,
-		r.URL.String(),
-		r.Proto,
-		sw.statusCode,
-		r.UserAgent())
-}
-
-func (handler *DataSourceHandler) serveInstanceData(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/meta-data":
-		handler.serveFile(w, r, "meta-data")
-	case "/user-data":
-		handler.serveFile(w, r, "user-data")
-	case "/vendor-data":
-		handler.serveFile(w, r, "vendor-data")
-	default:
-		w.WriteHeader(http.StatusBadRequest)
-	}
-}
-
-func (handler *DataSourceHandler) serveFile(w http.ResponseWriter, r *http.Request, name string) {
-	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	clientIP, _, err := net.SplitHostPort(r.RemoteAddr)
 	if err != nil {
 		log.Printf("failed to parse remote address %s: %v", r.RemoteAddr, err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	instanceDir := filepath.Join(handler.dataSourceDir, net.ParseIP(host).String())
+	xff := r.Header.Get("X-Forwarded-For")
+	if xff != "" {
+		clientIP = strings.Split(xff, " ")[0]
+	}
+
+	if r.Method == http.MethodGet {
+		handler.serveInstanceData(sw, r, clientIP)
+	} else {
+		sw.WriteHeader(http.StatusMethodNotAllowed)
+	}
+	log.Printf("%s \"%s %s %s\" %d \"%s\" %s",
+		r.RemoteAddr,
+		r.Method,
+		r.URL.String(),
+		r.Proto,
+		sw.statusCode,
+		r.UserAgent(),
+		clientIP)
+}
+
+func (handler *DataSourceHandler) serveInstanceData(w http.ResponseWriter, r *http.Request, clientIP string) {
+	switch r.URL.Path {
+	case "/meta-data":
+		handler.serveFile(w, r, clientIP, "meta-data")
+	case "/user-data":
+		handler.serveFile(w, r, clientIP, "user-data")
+	case "/vendor-data":
+		handler.serveFile(w, r, clientIP, "vendor-data")
+	default:
+		w.WriteHeader(http.StatusBadRequest)
+	}
+}
+
+func (handler *DataSourceHandler) serveFile(w http.ResponseWriter, r *http.Request, clientIP, name string) {
+	instanceDir := filepath.Join(handler.dataSourceDir, clientIP)
 	fi, err := os.Stat(instanceDir)
 	if os.IsNotExist(err) {
 		// Try to serve the default file

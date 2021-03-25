@@ -29,3 +29,7 @@ Then, run `nocloud-net-server`. You can specify the listen address and the path 
 You can also pass parameters with environment variables.
 
     $ NOCLOUD_NET_LISTEN_ADDRESS=address:port NOCLOUD_NET_DATASOURCE_DIR=/path/to/datasource nocloud-net-server
+
+## Running behind a reverse proxy
+
+If `X-Forwarded-For` header is set in the request, the server uses the client address in the header to find instance data.
