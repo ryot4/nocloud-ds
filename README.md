@@ -5,6 +5,13 @@ It can serve different instance data based on client's IP address.
 
 ## Installation
 
+### Binary releases (linux/amd64 only for now)
+
+See the [releases page](https://github.com/ryot4/nocloud-net-server/releases).
+Download and extract the archive, and then put the binary into the directory listed in `$PATH`.
+
+### Build from source
+
 Make sure [Go distribution is installed](https://golang.org/doc/install), and then run `go install`.
 
     $ go install github.com/ryot4/nocloud-net-server@latest
