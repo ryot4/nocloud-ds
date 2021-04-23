@@ -12,6 +12,7 @@ import (
 )
 
 const (
+	Version              = "0.1.0"
 	DefaultListenAddress = "0.0.0.0:8000"
 	DefaultDataSourceDir = "."
 	ListenAddressEnv     = "NOCLOUD_NET_LISTEN_ADDRESS"
@@ -23,7 +24,13 @@ func main() {
 		fmt.Sprintf("Specify the address to listen on (env: %s)", ListenAddressEnv))
 	dataSourceDir := flag.String("d", DefaultDataSourceDir,
 		fmt.Sprintf("Specify the datasource directory to serve (env: %s)", DataSourceDirEnv))
+	showVersion := flag.Bool("v", false, "Print version")
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Println(Version)
+		os.Exit(0)
+	}
 	if *listenAddress == DefaultListenAddress {
 		addr, ok := os.LookupEnv(ListenAddressEnv)
 		if ok {
