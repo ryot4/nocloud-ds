@@ -12,11 +12,11 @@ import (
 )
 
 const (
-	Version              = "0.1.0"
+	Version              = "0.2.0"
 	DefaultListenAddress = "0.0.0.0:8000"
 	DefaultDataSourceDir = "."
-	ListenAddressEnv     = "NOCLOUD_NET_LISTEN_ADDRESS"
-	DataSourceDirEnv     = "NOCLOUD_NET_DATASOURCE_DIR"
+	ListenAddressEnv     = "NOCLOUD_DS_LISTEN_ADDRESS"
+	DataSourceDirEnv     = "NOCLOUD_DS_DIR"
 )
 
 func main() {

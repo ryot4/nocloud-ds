@@ -45,11 +45,11 @@ jobs:
     - name: Archive files
       id: archive
       run: |
-        DIR=nocloud-net-server_${{ steps.get_release_version.outputs.version }}_${{ env.GOOS }}_${{ env.GOARCH }}
+        DIR=nocloud-ds_${{ steps.get_release_version.outputs.version }}_${{ env.GOOS }}_${{ env.GOARCH }}
         ARCHIVE=${DIR}.tar.gz
         SHA256SUM=${DIR}.sha256sum
         mkdir ${DIR}
-        cp -a LICENSE README.md nocloud-net-server ${DIR}
+        cp -a LICENSE README.md nocloud-ds ${DIR}
         tar -czf ${ARCHIVE} ${DIR}
         sha256sum ${ARCHIVE} > ${SHA256SUM}
         echo ::set-output name=archive::${ARCHIVE}

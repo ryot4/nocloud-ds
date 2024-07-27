@@ -1,3 +1,3 @@
-module github.com/ryot4/nocloud-net-server
+module github.com/ryot4/nocloud-ds
 
 go 1.22
