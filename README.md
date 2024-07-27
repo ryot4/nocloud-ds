@@ -1,6 +1,6 @@
 # nocloud-net-server
 
-nocloud-net-server is a HTTP server for [nocloud-net datasource of cloud-init](https://cloudinit.readthedocs.io/en/latest/topics/datasources/nocloud.html).
+nocloud-net-server is a HTTP server for [NoCloud datasource of cloud-init](https://cloudinit.readthedocs.io/en/latest/topics/datasources/nocloud.html).
 It can serve different instance data based on client's IP address.
 
 ## Installation
