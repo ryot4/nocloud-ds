@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	Version              = "0.2.0"
+	Version              = "0.2.1"
 	DefaultListenAddress = "0.0.0.0:8000"
 	DefaultDataSourceDir = "."
 	ListenAddressEnv     = "NOCLOUD_DS_LISTEN_ADDRESS"
