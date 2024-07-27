@@ -63,7 +63,7 @@ func (handler *DataSourceHandler) serveInstanceData(w http.ResponseWriter, r *ht
 	case "/vendor-data":
 		handler.serveFile(w, r, clientIP, "vendor-data")
 	default:
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusNotFound)
 	}
 }
 
