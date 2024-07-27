@@ -1,3 +1,3 @@
 module github.com/ryot4/nocloud-net-server
 
-go 1.16
+go 1.22
